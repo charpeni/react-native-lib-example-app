@@ -9,6 +9,10 @@
 }
 RCT_EXPORT_MODULE()
 
++ (BOOL)requiresMainQueueSetup {
+    return false;
+}
+
 - (NSDictionary *)constantsToExport
 {
     return @{ @"textFromLib" : @"This text comes from the lib." };
