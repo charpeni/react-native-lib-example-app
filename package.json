@@ -1,0 +1,34 @@
+{
+  "name": "react-native-lib-example-app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "16.8.3",
+    "react-native": "0.59.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/runtime": "^7.4.2",
+    "@react-native-community/eslint-config": "^0.0.3",
+    "eslint": "^5.16.0",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.5",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "prettier": "1.16.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
