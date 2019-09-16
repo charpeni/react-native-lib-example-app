@@ -1,23 +1,29 @@
-
 buildscript {
+    ext.safeExtGet = {prop, fallback ->
+        rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+    }
     repositories {
+        google()
         jcenter()
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.3.1'
+        classpath("com.android.tools.build:gradle:3.5.0")
     }
 }
 
 apply plugin: 'com.android.library'
 
-android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+def DEFAULT_COMPILE_SDK_VERSION = 28
+def DEFAULT_BUILD_TOOLS_VERSION = "28.0.3"
+def DEFAULT_MIN_SDK_VERSION = 16
+def DEFAULT_TARGET_SDK_VERSION = 28
 
+android {
+    compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
+    buildToolsVersion safeExtGet('buildToolsVersion', DEFAULT_BUILD_TOOLS_VERSION)
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 22
+        minSdkVersion safeExtGet('minSdkVersion', DEFAULT_MIN_SDK_VERSION)
+        targetSdkVersion safeExtGet('targetSdkVersion', DEFAULT_TARGET_SDK_VERSION)
         versionCode 1
         versionName "1.0"
     }
@@ -27,10 +33,21 @@ android {
 }
 
 repositories {
-    mavenCentral()
+    mavenLocal()
+    maven {
+        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+        url("$rootDir/../node_modules/react-native/android")
+    }
+    maven {
+        // Android JSC is installed from npm
+        url("$rootDir/../node_modules/jsc-android/dist")
+    }
+
+    google()
+    jcenter()
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:+'
+    //noinspection GradleDynamicVersion
+    implementation "com.facebook.react:react-native:+"  // From node_modules
 }
-  
